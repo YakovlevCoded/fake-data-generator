@@ -1,0 +1,19 @@
+{
+  "name": "psql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "psql.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "faker": "^4.1.0",
+    "pg": "^8.2.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.12",
+    "sequelize-cli": "^5.5.1"
+  }
+}
