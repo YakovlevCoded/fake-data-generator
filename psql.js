@@ -53,20 +53,35 @@ const usersModel = sequelize.define('users', {
 }, {
     timestamps: false
 });
+const lineItemsModel = sequelize.define('line_items', {
+    id: {
+        primaryKey: true,
+        autoIncrement: true,
+        type: Sequelize.INTEGER,
+    },
+    product_id: Sequelize.INTEGER, // 1 - 100
+    order_id: Sequelize.INTEGER, // 10000
+    quantity: Sequelize.INTEGER, // 1-10
+    price: Sequelize.INTEGER, // 50-300
+    created_at: Sequelize.DATEONLY,
+}, {
+    timestamps: false
+});
 // clear tables
 ordersModel.destroy({truncate: true, restartIdentity: true});
 productsModel.destroy({truncate: true, restartIdentity: true});
+lineItemsModel.destroy({truncate: true, restartIdentity: true});
 
 // start date
 let created_at = faker.date.between('2019-01-01', '2019-01-01');
 let statusArr = ['completed', 'processing', 'shipped'];
 
 
-// fake 10000 orders, 5 in one day
+// fake 10000 orders, 3-10 in one day
 (async function () {
     for (let i = 0; i < 10000; i++) {
-        // increment date after 5 orders
-        if (i % 5 === 0) {
+        // increment date after 3-10 orders
+        if (i % randomIntFromInterval(3, 10) === 0) {
             created_at = addDays(created_at, 1);
         }
         // random completed date
@@ -108,6 +123,20 @@ let statusArr = ['completed', 'processing', 'shipped'];
             },
             {returning: true, where: {id: i + 1}}
         );
+    }
+})();
+// fake 10000 line_items
+(async function () {
+    for (let i = 0; i < 10000; i++) {
+        let ob = {
+            id: null,
+            product_id: randomIntFromInterval(1, 100),
+            order_id: i + 1,
+            quantity: randomIntFromInterval(1, 10),
+            price: randomIntFromInterval(50, 300),
+            created_at: faker.date.between('2020-01-01', '2022-01-01'),
+        };
+        await lineItemsModel.create(ob);
     }
 })();
 
