@@ -33,7 +33,7 @@ const productsModel = sequelize.define('products', {
     description: Sequelize.STRING,
     created_at: Sequelize.DATEONLY,
     supplier_id: Sequelize.INTEGER,
-    category_id: Sequelize.INTEGER,
+    product_category_id: Sequelize.INTEGER,
 }, {
     timestamps: false
 });
@@ -75,6 +75,7 @@ lineItemsModel.destroy({truncate: true, restartIdentity: true});
 // start date
 let created_at = faker.date.between('2019-01-01', '2019-01-01');
 let statusArr = ['completed', 'processing', 'shipped'];
+let cities = ['San Francisco', 'New York', 'Seattle', 'Mountain View', 'Los Angeles', 'Chicago', 'Austin', 'Palo Alto'];
 
 
 // fake 10000 orders, 3-10 in one day
@@ -119,7 +120,8 @@ let statusArr = ['completed', 'processing', 'shipped'];
         await usersModel.update(
             {
                 first_name: faker.name.firstName(),
-                last_name: faker.name.lastName()
+                last_name: faker.name.lastName(),
+                city: cities[randomIntFromInterval(0, 7)]
             },
             {returning: true, where: {id: i + 1}}
         );
