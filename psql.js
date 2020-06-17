@@ -2,11 +2,21 @@ const faker = require('faker');
 const Sequelize = require('sequelize');
 const config = require('dotenv').config();
 // db, user, password
-const sequelize = new Sequelize(process.env.DB, process.env.USER, process.env.PASSWORD, {
+const sequelize = new Sequelize(process.env.DB, process.env.USER_NAME, process.env.PASSWORD, {
     host: process.env.HOST,
     port: process.env.PORT,
     dialect: 'postgres'
 });
+// const queryInterface = sequelize.getQueryInterface();
+// queryInterface.addColumn(
+//     'users',
+//     'first_name',
+//     Sequelize.STRING);
+// queryInterface.addColumn(
+//     'users',
+//     'last_name',
+//     Sequelize.STRING);
+// queryInterface.renameColumn('products', 'category_id', 'product_category_id');
 
 const ordersModel = sequelize.define('orders', {
     id: {
@@ -109,7 +119,7 @@ let cities = ['San Francisco', 'New York', 'Seattle', 'Mountain View', 'Los Ange
             description: `${faker.commerce.department()} ${faker.commerce.productAdjective()} ${faker.commerce.productMaterial()} ${faker.commerce.product()}`,
             created_at: faker.date.between('2019-01-01', '2022-01-01'),
             supplier_id: randomIntFromInterval(1, 100),
-            category_id: randomIntFromInterval(1, 10),
+            product_category_id: randomIntFromInterval(1, 10),
         };
         await productsModel.create(ob);
     }
@@ -135,7 +145,7 @@ let cities = ['San Francisco', 'New York', 'Seattle', 'Mountain View', 'Los Ange
             product_id: randomIntFromInterval(1, 100),
             order_id: i + 1,
             quantity: randomIntFromInterval(1, 10),
-            price: randomIntFromInterval(50, 300),
+            price: randomIntFromInterval(20, 280),
             created_at: faker.date.between('2020-01-01', '2022-01-01'),
         };
         await lineItemsModel.create(ob);
